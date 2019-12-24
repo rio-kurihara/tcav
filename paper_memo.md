@@ -11,11 +11,7 @@
 - 入力空間上にデータ点が置かれたときに、人が解釈しやすいような概念空間にデータ点を持ってくるイメージ
 - （図1が理解できればokな気がする）
 
-
-
 ---
-
-
 
 ## abstract
 
@@ -24,7 +20,6 @@
 - これらの課題に対処するため、Concept Activation Vectors(CAVs)を導入する
 - ユーザーが定義した概念が分類結果に対してどれくらい重要かを定量化するために、方向微分を使用する
 
-<div style="page-break-before:always"></div>
 ## 1.Introduction
 
 - 問題提起
@@ -36,22 +31,23 @@
         - 人間が容易に理解できる高レベルの概念に対応していない
         - モデルの内部が理解できていないように見える場合がある
 - どうやって解決するのか
-  - MLモデルの状態を、入力データに対応する基底ベクトル $em$ にまたがるベクトル空間 $Em $として表現し、人間が解釈可能な概念に対応する暗黙のベクトル $eh$ にまたがるベクトル空間 $Eh$ を考える
-  - この観点から、MLモデルの「解釈」は関数 $g: Em→Eh$ として見ることができる（入力空間上にデータ点が置かれたときに、人が解釈しやすいように概念空間にデータ点を持ってくる関数 $g$ ）
-    - $g$ が線形の場合、**線形解釈可能性**と呼ぶ
-    - 入力空間 $Em$ のいくつかを説明できず、$Eh$ で考えられるすべての概念をカバーできないこともある
+  - MLモデルの状態を、入力データに対応する基底ベクトル <img src="https://latex.codecogs.com/gif.latex?em" /> にまたがるベクトル空間 <img src="https://latex.codecogs.com/gif.latex?Em" />として表現し、人間が解釈可能な概念に対応する暗黙のベクトル <img src="https://latex.codecogs.com/gif.latex?eh" /> にまたがるベクトル空間 <img src="https://latex.codecogs.com/gif.latex?Eh" /> を考える
+  - この観点から、MLモデルの「解釈」は関数  <img src="https://latex.codecogs.com/gif.latex?g:&space;Em\rightarrow&space;Eh" /> として見ることができる（入力空間上にデータ点が置かれたときに、人が解釈しやすいように概念空間にデータ点を持ってくる関数 <img src="https://latex.codecogs.com/gif.latex?g" /> ）
+    - <img src="https://latex.codecogs.com/gif.latex?g" /> が線形の場合、**線形解釈可能性**と呼ぶ
+    - 入力空間 <img src="https://latex.codecogs.com/gif.latex?Em" /> のいくつかを説明できず、<img src="https://latex.codecogs.com/gif.latex?Eh" /> で考えられるすべての概念をカバーできないこともある
 - Concept Activation Vectors (CAV)の概念
   - 概念画像とランダムな反例の間で線形分類器をトレーニングし、決定境界に直交するベクトルを取得することにより、CAVを導出する（図1見た方が早い）
 - 主な結果
   - たとえば、シマウマを認識するML画像モデルと、「縞模様」を定義する新しいユーザー定義のサンプルセット（概念画像）がある場合、TCAVは「シマウマ」予測に対する縞模様の概念の影響を単一の数値として定量化できる
   - さらに、モデルの出力クラスと有意な相関関係が示されるか統計テストを実施（3.2章で詳述）
-- ![1573548932604](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573548932604.png)
+  
+- ![image](https://user-images.githubusercontent.com/36921282/71402601-ada9cb00-2670-11ea-8ecd-92d97d0aff14.png)
 - 図1：
     a : 上はユーザー定義の概念画像・下はランダムな反例
     b : 学習済みクラスの学習データセット
     c : 学習済みモデル
-    d：概念画像とランダムな反例の線形分類器（$v_C^l$ は分類境界に直行する法線ベクトル）
-    e：概念に対する感度（TCAVは方向微分 $S_{c, k, l}(x)$ を使用する）
+    d：概念画像とランダムな反例の線形分類器（<img src="https://latex.codecogs.com/gif.latex?v_C^l" /> は分類境界に直行する法線ベクトル）
+    e：概念に対する感度（TCAVは方向微分 <img src="https://latex.codecogs.com/gif.latex?S_{c,&space;k,&space;l}(x)" /> を使用する）
 - 目標
   - アクセシビリティ：ユーザーのMLの専門知識がほとんど必要ないこと
   - カスタマイズ：あらゆる概念（性別など）に適応し、トレーニング中の概念に限定されないこと
@@ -80,11 +76,11 @@
 
 ### 2.2. Interpretability methods in neural networks
 
-TCAVの目標は、ニューラルネットワークモデルのような高次元の $Em$ を解釈すること
+TCAVの目標は、ニューラルネットワークモデルのような高次元の <img src="https://latex.codecogs.com/gif.latex?Em" /> を解釈すること
 顕著性マップは、画像分類の最も一般的な手法である
 
 - 図8に示すように、特定の画像の各ピクセルがその分類にとってどれほど重要かを示すマップを生成する
-- 図8 ![1573557597591](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573557597591.png)
+- 図8 ![image](https://user-images.githubusercontent.com/36921282/71402630-c4502200-2670-11ea-89d9-3bc3a1345a6d.png)
 - 顕著性マップは、いくつかの制限がある
   - (1) 顕著性マップは1つの画像（≒ローカルな説明）に対するものであるため、人間はクラス全体の結論を引き出すために、各画像を見なければならない
     - たとえば、2つの異なる猫の写真の2つの顕著性マップを考えてみる
@@ -99,16 +95,16 @@ TCAVの目標は、ニューラルネットワークモデルのような高次�
 - このアイデアを拡張し、学習した方向に沿って方向導関数を計算し、モデルの予測における各方向の重要性を収集
 - TCAVのフレームワークを使用して、ユーザーにとって意味のある概念をテストし、各クラスのグローバルな説明を作成できる
 
-<div style="page-break-before:always"></div>
 ## 3. Methods
 
 この章では、アイデアと方法について説明する
 
 （a）方向導関数を使って、さまざまなユーザー定義の概念に対するMLモデル予測の感度を定量化する方法
-（b）相対的な重要性の最終定量的説明（ $TCAV_Q$ ）を計算する方法
+
+（b）相対的な重要性の最終定量的説明（  <img src="https://latex.codecogs.com/gif.latex?TCAV_Q" /> ）を計算する方法
 
 - モデルの再学習や変更を行わずに、予測クラスに各概念を適用する
-- 入力 $x∈R^n$ と $m$ 個のニューロンを持つフィードフォワード層 $l$ を持つニューラルネットワークモデルを検討する
+- 入力 <img src="https://latex.codecogs.com/gif.latex?x\in&space;R^n" /> と  <img src="https://latex.codecogs.com/gif.latex?m" /> 個のニューロンを持つフィードフォワード層  <img src="https://latex.codecogs.com/gif.latex?l" /> を持つニューラルネットワークモデルを検討する
 
 ### 3.1. User-defined Concepts as Sets of Examples
 
@@ -120,33 +116,28 @@ TCAVの目標は、ニューラルネットワークモデルのような高次�
 ### 3.2. Concept Activation Vectors (CAVs)
 
 線形解釈可能性のアプローチに従う
-1. レイヤー $l$ の出力を抽出する
-2.  $l$ の出力から、概念画像群と説明したい画像群を分類する線形分類器を学習させ、分類境界に対する法線ベクトル $v_C^l$ を得る（＝「Concept Activation Vectors」、（図1の赤い矢印））
-
-
+1. レイヤー <img src="https://latex.codecogs.com/gif.latex?l" /> の出力を抽出する
+2.  <img src="https://latex.codecogs.com/gif.latex?l" /> の出力から、概念画像群と説明したい画像群を分類する線形分類器を学習させ、分類境界に対する法線ベクトル <img src="https://latex.codecogs.com/gif.latex?v_C^l" /> を得る（＝「Concept Activation Vectors」、（図1の赤い矢印））
 
 ### 3.3. Directional Derivatives and Conceptual Sensitivity
 
 顕著性マップなどの方法は、ピクセルなどの個々の入力特徴量に対するロジットの勾配を使用して計算する
-$h_k(x)$ はクラス $k$ のデータ点 $x$ のロジット、$x_{a,b}$ は $x$ の座標 $(a, b)$ 
-$$
-\frac{∂h_k(x)}{∂x_{a,b}}
-$$
-顕著性マップでは導関数を使って、ピクセル $(a, b)$ の大きさの変化に対する出力クラス $k$ の感度を測定している
 
-本手法では、CAVと方向導関数を使用することにより、活性化レイヤー $l$ で概念方向に向かう入力の変化に対するML予測の感度を測定する（式(1) 参照）
+<img src="https://latex.codecogs.com/gif.latex?h_k(x)" /> はクラス <img src="https://latex.codecogs.com/gif.latex?k" /> のデータ点 <img src="https://latex.codecogs.com/gif.latex?x" /> のロジット、<img src="https://latex.codecogs.com/gif.latex?x_{a,b}" /> は <img src="https://latex.codecogs.com/gif.latex?x" /> の座標 <img src="https://latex.codecogs.com/gif.latex?(a,b)" />
 
-レイヤー $l$ での入力 $x$ における、コンセプト $C$ に対するクラス $k$ の「概念感度」は方向として計算できる。
-導関数 $S_{C, k, l}(x)$ は下記のように定義する。
-$$
-\begin{eqnarray}
-S_{C, k, l}(x) &=& \lim_{ε\to0} \frac {h_{l,k}(f_l(x)+εv_C^l) - h_{l,k}(f_l(x))}{ε}  \\
-&=& \nabla h_{l,k}(f_l(x)) \cdot v_C^l \tag{1}
+![image](https://user-images.githubusercontent.com/36921282/71403419-0b3f1700-2673-11ea-94b5-e6c9ca442477.png)
 
-\end{eqnarray}
-$$
+顕著性マップでは導関数を使って、ピクセル <img src="https://latex.codecogs.com/gif.latex?(a,b)" /> の大きさの変化に対する出力クラス <img src="https://latex.codecogs.com/gif.latex?k" /> の感度を測定している
 
-この $S_{C,k,l}(x)$ は、モデルの任意の層における概念に対するモデル予測の感度を定量的に測定できる
+本手法では、CAVと方向導関数を使用することにより、活性化レイヤー <img src="https://latex.codecogs.com/gif.latex?l" /> で概念方向に向かう入力の変化に対するML予測の感度を測定する（式(1) 参照）
+
+レイヤー <img src="https://latex.codecogs.com/gif.latex?l" /> での入力 <img src="https://latex.codecogs.com/gif.latex?x" /> における、コンセプト <img src="https://latex.codecogs.com/gif.latex?C" /> に対するクラス <img src="https://latex.codecogs.com/gif.latex?k" /> の「概念感度」は方向として計算できる。
+導関数 <img src="https://latex.codecogs.com/gif.latex?S_{C, k, l}(x)" /> は下記のように定義する。
+
+![image](https://user-images.githubusercontent.com/36921282/71403494-3fb2d300-2673-11ea-9422-768f8337d5c5.png)
+
+
+この <img src="https://latex.codecogs.com/gif.latex?S_{C, k, l}(x)" /> は、モデルの任意の層における概念に対するモデル予測の感度を定量的に測定できる
 
 ピクセルごとの顕著性マップとは異なり、入力全体または入力セットで計算された概念ごとのスカラー量になる。
 
@@ -156,16 +147,16 @@ $$
 
 CAVを使ったテストでは、方向導関数を使用して、入力のクラス全体でMLモデルの概念感度を計算する
 
-$k$ ：教師あり学習のクラスラベル
-$X_k$ ：クラス $k$ のデータセット
+<img src="https://latex.codecogs.com/gif.latex?k" /> ：教師あり学習のクラスラベル
+<img src="https://latex.codecogs.com/gif.latex?X_k" /> ：クラス <img src="https://latex.codecogs.com/gif.latex?k" /> のデータセット
 TCAVスコアを次のように定義
-$$
-TCAV_{Q_{C, k, l}}=\frac{|\{x∈X_k:S_{C,k,l}(x)>0\}|}{|X_k|} \tag{2}
-$$
 
-- $l$ 層の活性化ベクトルが概念 $C$ によって正の影響を受けた入力の割合、$TCAV_{Q_{C,k,l}}∈[0、1]$ 
-- $TCAV_{Q_{C,k,l}}$ は $S_{C, k, l}$ の符号のみに依存する（負の影響は無視する）
-- $TCAV_Q$ を使用すると、ラベル内のすべての入力について、概念的な感度をグローバルに簡単に解釈できる
+![image](https://user-images.githubusercontent.com/36921282/71403532-5e18ce80-2673-11ea-85f8-577fef7a990a.png)
+
+
+- <img src="https://latex.codecogs.com/gif.latex?l" /> 層の活性化ベクトルが概念 <img src="https://latex.codecogs.com/gif.latex?C" /> によって正の影響を受けた入力の割合、https://latex.codecogs.com/gif.latex?TCAV_{Q_{C,k,l}}\in&space;[0,&space;1] 
+- <img src="https://latex.codecogs.com/gif.latex?TCAV_{Q_{C,k,l}}" /> は <img src="https://latex.codecogs.com/gif.latex?S_{C, k, l}" /> の符号のみに依存する（負の影響は無視する）
+- <img src="https://latex.codecogs.com/gif.latex?TCAV_Q" /> を使用すると、ラベル内のすべての入力について、概念的な感度をグローバルに簡単に解釈できる
 
 
 
@@ -173,19 +164,16 @@ $$
 
 割愛（簡単な統計的有意性テストをやりました）
 
-
-
 ### 3.6. TCAV extensions: Relative TCAV
 
 - 意味的に近い概念（たとえば、茶髪と黒髪）は、多くの場合直交とは程遠いCAVを生成する
 - 関連する概念間の相対的な比較は良い解釈ツールで、細かい区別をするために有益に使用される可能性がある
-- ここで、アナリストは2つの異なる概念 $C$ と $D$ を表す2つの入力セットを選択する
-  - $f_l(P_C)$ と $f_l(P_D)$ で分類器をトレーニングすると、ベクトル $v_{C, D}^l∈R^m$ が得られる
-  - $x$ が概念 $C$ または $D$ により関連しているかどうかを測定できる
+- ここで、アナリストは2つの異なる概念 <img src="https://latex.codecogs.com/gif.latex?C" /> と <img src="https://latex.codecogs.com/gif.latex?D" /> を表す2つの入力セットを選択する
+  - <img src="https://latex.codecogs.com/gif.latex?f_l(P_C)" /> と <img src="https://latex.codecogs.com/gif.latex?f_l(P_D)" /> で分類器をトレーニングすると、ベクトル https://latex.codecogs.com/gif.latex?v_{C,&space;D}^l\in&space;R^m が得られる
+  - <img src="https://latex.codecogs.com/gif.latex?x" />が概念 <img src="https://latex.codecogs.com/gif.latex?C" /> または <img src="https://latex.codecogs.com/gif.latex?D" /> により関連しているかどうかを測定できる
 - たとえば、相対CAVは画像認識に適用される場合があり、「点線」、「縞模様」、および「メッシュ」テクスチャの概念は内部表現として存在し、相関または重複していると仮定できる
-  - 3つの正の例セット $P_{dot}$ 、$P_{stripe}$、および $P_{mesh}$ が与えられた場合、それぞれに対して、補数による負の入力セットを構築することにより、相対CAVを導き出すことができる（たとえば、ストライプの$\{P_{dot}∪P_{mesh}\}$）
+  - 3つの正の例セット <img src="https://latex.codecogs.com/gif.latex?C" /> または <img src="https://latex.codecogs.com/gif.latex?P_{dot}" /> 、<img src="https://latex.codecogs.com/gif.latex?P_{stripe}" />、および <img src="https://latex.codecogs.com/gif.latex?P_{mesh}" /> が与えられた場合、それぞれに対して、補数による負の入力セットを構築することにより、相対CAVを導き出すことができる（たとえば、ストライプのhttps://latex.codecogs.com/gif.latex?\{P_{dot}\cup&space;P_{mesh}\}）
 
-<div style="page-break-before:always"></div>
 ## 4. Results
 
 4.1: CAVが人間が解釈可能な概念を学んでいるかの検証
@@ -200,8 +188,6 @@ $$
 
 4.4：応用してみた。TCAVを適用して、糖尿病性網膜症（DR）を予測するモデルの解釈を支援。TCAVは、ドメイン専門家の知識と分岐したモデルについて洞察を提供した
 
-
-
 ### 4.1. Validating the learned CAVs
 
 最初のステップは、学習したCAVが目的の概念と整合していることを確認すること
@@ -209,16 +195,14 @@ $$
 1. CAVを使って画像を並べ替える
 2. 視覚的に確認するためのアクティベーション最大化手法を使って、各CAVを最大限アクティブにするパターンを学習する
 
-
-
 #### 4.1.1. SORTING IMAGES WITH CAVs
 
- $v_C^l$セット間のコサイン類似度を計算した（ソートされる画像は、CAVの学習には使用されていない）
+ <img src="https://latex.codecogs.com/gif.latex?v_C^l" />セット間のコサイン類似度を計算した（ソートされる画像は、CAVの学習には使用されていない）
 
 - CAVを使用して、概念との関係に関して画像を並べ替えることができる
 - データセットのバイアスも明らかにできる
 
-![1573556128960](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573556128960.png)
+![image](https://user-images.githubusercontent.com/36921282/71402707-f06ba300-2670-11ea-9ba0-e0b8e894a177.png)
 
 図2：
 （左）「CEO」概念を使って、ストライプの最もよく似た写真とそうでない写真
@@ -228,15 +212,13 @@ $$
 - 右上の3つの画像はすべてネクタイの女性を示している
   - CAVが類似性ソーターとして機能し、学習画像のバイアスを明らかにするために使えることを示唆している
 
-
-
 #### 4.1.2. EMPIRICAL DEEP DREAM
 
 任意の概念画像に対するCAVが最大になるパターンを最適化し、CAVが関心のある根本的な概念を反映していることを示す。
 
 - Deep DreamやLucidなどのアクティベーション最大化手法で行われるように、最適化の開始はランダム画像
 
-![1573556362800](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573556362800.png)
+![image](https://user-images.githubusercontent.com/36921282/71402749-04afa000-2671-11ea-9041-482aee5afcee.png)
 
 図3.ニットテクスチャ、コーギー、およびシベリアンハスキーの概念を使用したディープドリーム（拡大）
 
@@ -264,7 +246,7 @@ GoogleNetとInception V3にTCAVを適用して、下記を確認
 
 GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習したCAVでTCAVの結果を示す
 
-![1573556595274](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573556595274.png)
+![image](https://user-images.githubusercontent.com/36921282/71402774-12652580-2671-11ea-807e-96b7b8334139.png)
 
 図4：グラフの色が各レイヤーのTCAV
 
@@ -277,7 +259,7 @@ GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習�
   - 「ラグビーボール」クラスにおいて、「白人」の概念が関連している
   - 「ピンポンボール」クラスにおいて、「東アジア人」の概念が関連している
   - 「エプロン」クラスにおいて、「女性」の概念が関連している
-- 人種の概念は最終層に近づくにつれて強い信号を示すが、テクスチャ（ストライプなど）の概念は最初のレイヤーで $TCAV_Q$ に影響する
+- 人種の概念は最終層に近づくにつれて強い信号を示すが、テクスチャ（ストライプなど）の概念は最初のレイヤーで <img src="https://latex.codecogs.com/gif.latex?TCAV_Q" /> に影響する
 
 - 場合によっては、CAVを学習に使う画像は少数で十分だった
   - 「ダンベル」クラスでは概念画像を30枚収集した。少数にもかかわらず、「腕」の概念が他の概念よりも重要であると正常に識別した。この発見は、DeepDreamの結果と一致していて、TCAVは定性的な発見に対する定量的な確認を可能にする
@@ -289,14 +271,12 @@ GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習�
 線形分類器を学習して各概念を分離するのがCAVの学習プロセス
 この線形分類器のパフォーマンスを使って、各概念が学習されるレイヤーの下限を取得できる
 
-![1573556823752](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573556823752.png)
+![image](https://user-images.githubusercontent.com/36921282/71402805-26108c00-2671-11ea-8c6e-ba22e10c1652.png)
 
 図5：各レイヤーでのCAVの精度。グラフの横にいくほどレイヤーが深くなる。グラフの色は概念
 単純な概念（色など）は、下位層で高いパフォーマンスで、抽象的・複雑な概念（人、オブジェクトなど）は上位層で高いパフォーマンスを実現する
 
 - 各層でどの程度粗い・細かい部分の特徴を捉えているかがわかる
-
-
 
 ### 4.3. A controlled experiment with ground truth
 
@@ -304,14 +284,14 @@ GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習�
 
 - この実験の目標は、TCAVの定量的結果と顕著性マップの評価を比較すること
 - 画像にノイズの多いキャプションが書き込まれた3つの任意のクラス（ゼブラ、タクシー、キュウリ）のデータセットを作成した（図6参照）
-  - ノイズパラメータ $p∈[0, 1.0]$ は、画像キャプションが画像クラスと一致する確率を制御する。 ノイズがない場合（ $p = 0$ ）、キャプションは常に画像ラベルと一致する。 $p = .3$ では、各写真の30％の確率で、正しいキャプションがランダムな単語に置き換えられる
+  - ノイズパラメータ https://latex.codecogs.com/gif.latex?p\in&space;[0,&space;1.0] は、画像キャプションが画像クラスと一致する確率を制御する。 ノイズがない場合（ <img src="https://latex.codecogs.com/gif.latex?p = 0" /> ）、キャプションは常に画像ラベルと一致する。 <img src="https://latex.codecogs.com/gif.latex?p = p = .3" /> では、各写真の30％の確率で、正しいキャプションがランダムな単語に置き換えられる
 - 4つのネットワークを学習する：p = 0, p = 0.3, p = 1.0, キャプションなし
   - 分類タスクでは、画像かキャプションまたはその両方を学習するケースがある。各ネットワークがどのコンセプトに注意を払ったかを概算するために、キャプションなしの画像でネットワークのパフォーマンスをテストした
     - 画像を注視している場合、キャプションがなくてもパフォーマンスは高いまま。そうでない場合パフォーマンスは低下する
 
 
 
-![1573556919483](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573556919483.png)
+![image](https://user-images.githubusercontent.com/36921282/71402824-37599880-2671-11ea-84c6-99a4d74576f9.png)
 
 
 
@@ -321,7 +301,7 @@ GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習�
 
 #### 4.3.1. QUANTITATIVE EVALUATION OF TCAV
 
-![1573557152414](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573557152414.png)
+![image](https://user-images.githubusercontent.com/36921282/71402841-44768780-2671-11ea-81a4-4052c6f8bda2.png)
 
 図7
 
@@ -330,7 +310,7 @@ GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習�
 - きゅうりクラス（図7右）
   - キャプションのノイズが少ないモデル（0%, 30%）では、ほとんどキャプションを見ている（赤線）。そのためAccuracyが低い
   - ノイズが多いorキャプションがないモデル（100%, no captions）では、キャプションではなく画像を見ている。そのためAccuracyが高い
-  - $TCAV_Q$ とAccuracyが密接に関連している
+  - <img src="https://latex.codecogs.com/gif.latex?TCAV_Q" /> とAccuracyが密接に関連している
 
 
 
@@ -339,17 +319,17 @@ GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習�
 顕著性マップは、画像ベースのネットワークの解釈可能性方法として使用される（2章参照）
 人間の被験者実験を通して、顕著性マップが人間に伝えられる情報を定量的に評価する
 
-![1573557597591](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573557597591.png)
+![image](https://user-images.githubusercontent.com/36921282/71402855-4fc9b300-2671-11ea-94fd-0c065bc28abd.png)
 
 図8：
-異なるノイズパラメーター $p$ （行）および異なる顕著性マップメソッド（列）
+異なるノイズパラメーター <img src="https://latex.codecogs.com/gif.latex?p" /> （行）および異なる顕著性マップメソッド（列）
 ネットワークがキャプションよりも画像に多くの注意を払っていることは顕著性マップから明らかではない
 
 生成された顕著性マップを使用して50人の対して実験を行った。（簡単にするため、4つのノイズレベルのうち2つ（0％と100％のノイズ）、および2つのタイプの顕著性マップを評価した）
 
 各ワーカーは、モデルが重要視しているのが「画像」か「キャプション」かポイントをつけた。
 
-![1573792750003](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573792750003.png)
+![image](https://user-images.githubusercontent.com/36921282/71402868-5a844800-2671-11ea-8bf8-3daeecb1bee1.png)
 
 図9：実験結果
 
@@ -366,15 +346,11 @@ TCAVは、眼底画像から治療可能であるが視力を脅かす状態で�
 
 詳細は割愛するが、TCAVは「専門家がモデルの予測に同意できない場合、エラーの解釈と修正に役立つ場合がある」ということを言っている
 
-
-
-![1573557875886](C:\Users\rio.kurihara\AppData\Roaming\Typora\typora-user-images\1573557875886.png)
-
-
+![image](https://user-images.githubusercontent.com/36921282/71402883-66700a00-2671-11ea-924b-f535704163a5.png)
 
 図10：
 
-上：DRレベル4の画像とTCAVの結果。 $TCAV_Q$ は、このレベルに関連する機能では高く（緑色）、無関係な概念では低い（赤色）
+上：DRレベル4の画像とTCAVの結果。 <img src="https://latex.codecogs.com/gif.latex?TCAV_Q" /> は、このレベルに関連する機能では高く（緑色）、無関係な概念では低い（赤色）
 
 中：DRレベル1（軽度）TCAV結果
 
