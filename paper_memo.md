@@ -137,7 +137,7 @@ TCAVの目標は、ニューラルネットワークモデルのような高次�
 ![image](https://user-images.githubusercontent.com/36921282/71403494-3fb2d300-2673-11ea-9422-768f8337d5c5.png)
 
 
-この <img src="https://latex.codecogs.com/gif.latex?S_{C, k, l}(x)" /> は、モデルの任意の層における概念に対するモデル予測の感度を定量的に測定できる
+この <img src="https://latex.codecogs.com/gif.latex?S_{C,&space;k,&space;l}(x)" /> は、モデルの任意の層における概念に対するモデル予測の感度を定量的に測定できる
 
 ピクセルごとの顕著性マップとは異なり、入力全体または入力セットで計算された概念ごとのスカラー量になる。
 
@@ -154,8 +154,8 @@ TCAVスコアを次のように定義
 ![image](https://user-images.githubusercontent.com/36921282/71403532-5e18ce80-2673-11ea-85f8-577fef7a990a.png)
 
 
-- <img src="https://latex.codecogs.com/gif.latex?l" /> 層の活性化ベクトルが概念 <img src="https://latex.codecogs.com/gif.latex?C" /> によって正の影響を受けた入力の割合、https://latex.codecogs.com/gif.latex?TCAV_{Q_{C,k,l}}\in&space;[0,&space;1] 
-- <img src="https://latex.codecogs.com/gif.latex?TCAV_{Q_{C,k,l}}" /> は <img src="https://latex.codecogs.com/gif.latex?S_{C, k, l}" /> の符号のみに依存する（負の影響は無視する）
+- <img src="https://latex.codecogs.com/gif.latex?l" /> 層の活性化ベクトルが概念 <img src="https://latex.codecogs.com/gif.latex?C" /> によって正の影響を受けた入力の割合、<img src="https://latex.codecogs.com/gif.latex?TCAV_{Q_{C,k,l}}\in&space;[0,&space;1]" />
+- <img src="https://latex.codecogs.com/gif.latex?TCAV_{Q_{C,k,l}}" /> は <img src="https://latex.codecogs.com/gif.latex?S_{C,&space;k,&space;l}" /> の符号のみに依存する（負の影響は無視する）
 - <img src="https://latex.codecogs.com/gif.latex?TCAV_Q" /> を使用すると、ラベル内のすべての入力について、概念的な感度をグローバルに簡単に解釈できる
 
 
@@ -169,10 +169,10 @@ TCAVスコアを次のように定義
 - 意味的に近い概念（たとえば、茶髪と黒髪）は、多くの場合直交とは程遠いCAVを生成する
 - 関連する概念間の相対的な比較は良い解釈ツールで、細かい区別をするために有益に使用される可能性がある
 - ここで、アナリストは2つの異なる概念 <img src="https://latex.codecogs.com/gif.latex?C" /> と <img src="https://latex.codecogs.com/gif.latex?D" /> を表す2つの入力セットを選択する
-  - <img src="https://latex.codecogs.com/gif.latex?f_l(P_C)" /> と <img src="https://latex.codecogs.com/gif.latex?f_l(P_D)" /> で分類器をトレーニングすると、ベクトル https://latex.codecogs.com/gif.latex?v_{C,&space;D}^l\in&space;R^m が得られる
+  - <img src="https://latex.codecogs.com/gif.latex?f_l(P_C)" /> と <img src="https://latex.codecogs.com/gif.latex?f_l(P_D)" /> で分類器をトレーニングすると、ベクトル <img src="https://latex.codecogs.com/gif.latex?v_{C,&space;D}^l\in&space;R^m" /> が得られる
   - <img src="https://latex.codecogs.com/gif.latex?x" />が概念 <img src="https://latex.codecogs.com/gif.latex?C" /> または <img src="https://latex.codecogs.com/gif.latex?D" /> により関連しているかどうかを測定できる
 - たとえば、相対CAVは画像認識に適用される場合があり、「点線」、「縞模様」、および「メッシュ」テクスチャの概念は内部表現として存在し、相関または重複していると仮定できる
-  - 3つの正の例セット <img src="https://latex.codecogs.com/gif.latex?C" /> または <img src="https://latex.codecogs.com/gif.latex?P_{dot}" /> 、<img src="https://latex.codecogs.com/gif.latex?P_{stripe}" />、および <img src="https://latex.codecogs.com/gif.latex?P_{mesh}" /> が与えられた場合、それぞれに対して、補数による負の入力セットを構築することにより、相対CAVを導き出すことができる（たとえば、ストライプのhttps://latex.codecogs.com/gif.latex?\{P_{dot}\cup&space;P_{mesh}\}）
+  - 3つの正の例セット <img src="https://latex.codecogs.com/gif.latex?C" /> または <img src="https://latex.codecogs.com/gif.latex?P_{dot}" /> 、<img src="https://latex.codecogs.com/gif.latex?P_{stripe}" />、および <img src="https://latex.codecogs.com/gif.latex?P_{mesh}" /> が与えられた場合、それぞれに対して、補数による負の入力セットを構築することにより、相対CAVを導き出すことができる（たとえば、ストライプの <img src="https://latex.codecogs.com/gif.latex?\{P_{dot}\cup&space;P_{mesh}\}" />） 
 
 ## 4. Results
 
@@ -284,7 +284,7 @@ GoogleNetは全レイヤー、Inception V3は最後の3層の出力から学習�
 
 - この実験の目標は、TCAVの定量的結果と顕著性マップの評価を比較すること
 - 画像にノイズの多いキャプションが書き込まれた3つの任意のクラス（ゼブラ、タクシー、キュウリ）のデータセットを作成した（図6参照）
-  - ノイズパラメータ https://latex.codecogs.com/gif.latex?p\in&space;[0,&space;1.0] は、画像キャプションが画像クラスと一致する確率を制御する。 ノイズがない場合（ <img src="https://latex.codecogs.com/gif.latex?p = 0" /> ）、キャプションは常に画像ラベルと一致する。 <img src="https://latex.codecogs.com/gif.latex?p = p = .3" /> では、各写真の30％の確率で、正しいキャプションがランダムな単語に置き換えられる
+  - ノイズパラメータ  <img src="https://latex.codecogs.com/gif.latex?p\in&space;[0,&space;1.0]" /> は、画像キャプションが画像クラスと一致する確率を制御する。 ノイズがない場合（ <img src="https://latex.codecogs.com/gif.latex?p&space;=&space;0" /> ）、キャプションは常に画像ラベルと一致する。 <img src="https://latex.codecogs.com/gif.latex?p&space;=&space;.3" /> では、各写真の30％の確率で、正しいキャプションがランダムな単語に置き換えられる
 - 4つのネットワークを学習する：p = 0, p = 0.3, p = 1.0, キャプションなし
   - 分類タスクでは、画像かキャプションまたはその両方を学習するケースがある。各ネットワークがどのコンセプトに注意を払ったかを概算するために、キャプションなしの画像でネットワークのパフォーマンスをテストした
     - 画像を注視している場合、キャプションがなくてもパフォーマンスは高いまま。そうでない場合パフォーマンスは低下する
